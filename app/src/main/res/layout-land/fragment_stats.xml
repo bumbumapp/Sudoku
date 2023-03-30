@@ -25,12 +25,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:textColor="@color/colorAccenthigh"
                     android:text="@string/number_of_hints"
                     android:layout_weight="1"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:textColor="@color/colorAccenthigh"
                     android:text="0"
                     android:id="@+id/numb_of_hints"
                     android:layout_weight="1"/>
@@ -44,13 +46,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="@string/number_of_games"
+            android:textColor="@color/colorAccenthigh"
+            android:text="@string/number_of_games"
                 android:layout_weight="1"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="0"
+                android:textColor="@color/colorAccenthigh"
+
                 android:id="@+id/numb_of_total_games"
                 android:layout_weight="1"/>
             </LinearLayout>
@@ -63,6 +68,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:textColor="@color/colorAccenthigh"
+
                 android:text="@string/total_of_time"
                 android:layout_weight="1"/>
             <TextView
@@ -70,6 +77,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:text="0"
+                android:textColor="@color/colorAccenthigh"
+
                 android:id="@+id/numb_of_total_time"
                 android:layout_weight="1"/>
             </LinearLayout>
@@ -145,6 +154,7 @@
                     android:layout_height="wrap_content"
                     android:numStars="3"
                     android:layout_gravity="center"
+                    android:textColor="@color/colorAccenthigh"
                     android:id="@+id/first_diff_bar"
                     android:layout_below="@+id/first_diff_text"
                     style="?android:attr/ratingBarStyleSmall"/>
@@ -161,15 +171,18 @@
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:gravity="center_vertical">
+
                 <TextView
+                    android:id="@+id/first_av_text"
                     android:layout_width="wrap_content"
+                    android:textColor="@color/colorAccenthigh"
                     android:layout_height="wrap_content"
-                    android:text="@string/average_time"
-                    android:id="@+id/first_av_text"/>
+                    android:text="@string/average_time" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0"
+                    android:textColor="@color/colorAccenthigh"
                     android:id="@+id/first_ava_time"
                     android:gravity="center_vertical"
                     android:layout_below="@+id/first_av_text"/>
@@ -180,15 +193,18 @@
                 android:layout_height="fill_parent"
                 android:layout_weight="1"
                 android:gravity="center_vertical">
+
                 <TextView
+                    android:id="@+id/first_min_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/min_time"
-                    android:id="@+id/first_min_text"/>
+                    android:textColor="@color/colorAccenthigh"
+                    android:text="@string/min_time" />
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0"
+                    android:textColor="@color/colorAccenthigh"
                     android:id="@+id/first_min_time"
                     android:gravity="center_vertical"
                     android:layout_below="@+id/first_min_text"/>
@@ -219,6 +235,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="diffi"
+                    android:textColor="@color/colorAccenthigh"
                     android:id="@+id/second_diff_text"
                     android:gravity="center_vertical"/>
             </RelativeLayout>
@@ -232,10 +249,12 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/average_time"
+                    android:textColor="@color/colorAccenthigh"
                     android:id="@+id/second_av_text"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/colorAccenthigh"
                     android:text="0"
                     android:id="@+id/second_ava_time"
                     android:gravity="center_vertical"
@@ -250,11 +269,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/min_time"
+                    android:textColor="@color/colorAccenthigh"
                     android:id="@+id/second_min_text"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0"
+                    android:textColor="@color/colorAccenthigh"
                     android:id="@+id/second_min_time"
                     android:gravity="center_vertical"
                     android:layout_below="@+id/second_min_text"/>
@@ -283,6 +304,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="diffi"
+                    android:textColor="@color/colorAccenthigh"
                     android:id="@+id/third_diff_text"
                     android:gravity="center_vertical"/>
             </RelativeLayout>
@@ -296,11 +318,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/average_time"
+                    android:textColor="@color/colorAccenthigh"
                     android:id="@+id/third_av_text"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0"
+                    android:textColor="@color/colorAccenthigh"
                     android:id="@+id/third_ava_time"
                     android:gravity="center_vertical"
                     android:layout_below="@+id/third_av_text"/>
@@ -314,11 +338,13 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/min_time"
+                    android:textColor="@color/colorAccenthigh"
                     android:id="@+id/third_min_text"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="0"
+                    android:textColor="@color/colorAccenthigh"
                     android:id="@+id/third_min_time"
                     android:gravity="center_vertical"
                     android:layout_below="@+id/third_min_text"/>
@@ -347,6 +373,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="diffi"
+                        android:textColor="@color/colorAccenthigh"
                         android:id="@+id/fourth_diff_text"
                         android:gravity="center_vertical"/>
                 </RelativeLayout>
@@ -360,11 +387,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/average_time"
+                        android:textColor="@color/colorAccenthigh"
                         android:id="@+id/fourth_av_text"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="0"
+                        android:textColor="@color/colorAccenthigh"
                         android:id="@+id/fourth_ava_time"
                         android:gravity="center_vertical"
                         android:layout_below="@+id/fourth_av_text"/>
@@ -378,11 +407,13 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/min_time"
+                        android:textColor="@color/colorAccenthigh"
                         android:id="@+id/fourth_min_text"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="0"
+                        android:textColor="@color/colorAccenthigh"
                         android:id="@+id/fourth_min_time"
                         android:gravity="center_vertical"
                         android:layout_below="@+id/fourth_min_text"/>

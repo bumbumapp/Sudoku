@@ -3,47 +3,46 @@
     package="org.secuso.privacyfriendlysudoku.ui.view">
 
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application
-        android:name="org.secuso.privacyfriendlysudoku.SudokuApp"
+        android:name="com.bumbumapps.sudoku.SudokuApp"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/app_logo_foreground"
         android:label="@string/app_name"
+        android:roundIcon="@mipmap/app_logo_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="org.secuso.privacyfriendlysudoku.ui.SplashActivity"
-            android:theme="@style/SplashTheme">
+            android:name="com.bumbumapps.sudoku.ui.SplashActivity"
+            android:theme="@style/SplashTheme"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name="org.secuso.privacyfriendlysudoku.ui.MainActivity"
+            android:name="com.bumbumapps.sudoku.ui.MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="org.secuso.privacyfriendlysudoku.ui.TutorialActivity"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name="org.secuso.privacyfriendlysudoku.ui.DailySudokuActivity"
+            android:name="com.bumbumapps.sudoku.ui.DailySudokuActivity"
             android:label="@string/Sudoku"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="org.secuso.privacyfriendlysudoku.ui.CreateSudokuActivity"
+            android:name="com.bumbumapps.sudoku.ui.CreateSudokuActivity"
             android:label="@string/Sudoku"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="org.secuso.privacyfriendlysudoku.ui.SettingsActivity"
+            android:name="com.bumbumapps.sudoku.ui.SettingsActivity"
             android:label="@string/title_activity_settings"
-            android:parentActivityName="org.secuso.privacyfriendlysudoku.ui.MainActivity" />
+            android:parentActivityName="com.bumbumapps.sudoku.ui.MainActivity" />
         <activity
-            android:name="org.secuso.privacyfriendlysudoku.ui.GameActivity"
+            android:name="com.bumbumapps.sudoku.ui.GameActivity"
             android:label="@string/title_activity_game_view"
             android:launchMode="singleTask"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -62,19 +61,22 @@
                     android:scheme="https" />
             </intent-filter>
         </activity>
-        <activity android:name="org.secuso.privacyfriendlysudoku.ui.AboutActivity" />
-        <activity android:name="org.secuso.privacyfriendlysudoku.ui.LoadGameActivity" />
+        <activity android:name="com.bumbumapps.sudoku.ui.AboutActivity" />
+        <activity android:name="com.bumbumapps.sudoku.ui.LoadGameActivity" />
         <activity
-            android:name="org.secuso.privacyfriendlysudoku.ui.StatsActivity"
+            android:name="com.bumbumapps.sudoku.ui.StatsActivity"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="org.secuso.privacyfriendlysudoku.ui.HelpActivity"
+            android:name="com.bumbumapps.sudoku.ui.HelpActivity"
             android:label="@string/title_activity_help" />
         <service
-            android:name="org.secuso.privacyfriendlysudoku.controller.GeneratorService"
+            android:name="com.bumbumapps.sudoku.controller.GeneratorService"
             android:enabled="true"
             android:permission="android.permission.BIND_JOB_SERVICE"
             android:exported="false" />
+        <meta-data
+            android:name="com.google.android.gms.ads.APPLICATION_ID"
+            android:value="ca-app-pub-8444865753152507~9311742640"/>
     </application>
 
 </manifest>

@@ -7,5 +7,5 @@
     <corners android:radius="6dp" />
     <stroke
         android:width="?attr/sudokuButtonBorderWidth"
-        android:color="?attr/colorPrimaryDark" />
+        android:color="@color/colorAccent" />
 </shape>

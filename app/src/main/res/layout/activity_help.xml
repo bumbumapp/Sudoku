@@ -5,7 +5,7 @@
     android:id="@+id/main_content"
     android:layout_height="match_parent">
 
-    <fragment android:name="org.secuso.privacyfriendlysudoku.ui.HelpActivity$HelpFragment"
+    <fragment android:name="com.bumbumapps.sudoku.ui.HelpActivity$HelpFragment"
         android:id="@+id/help_fragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

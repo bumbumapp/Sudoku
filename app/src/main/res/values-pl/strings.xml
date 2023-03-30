@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name" translatable="false">Sudoku</string>
+    <string name="app_name">Sudoku</string>
     <string name="title_activity_game_view" translatable="false">Sudoku</string>
 
     <string name="cancel">Anuluj</string>

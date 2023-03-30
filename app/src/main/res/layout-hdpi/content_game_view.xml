@@ -7,19 +7,18 @@
     android:layout_height="match_parent"
     android:id="@+id/main_content"
     android:layout_marginTop="?android:actionBarSize"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    tools:context="org.secuso.privacyfriendlysudoku.ui.GameActivity">
+    tools:context="com.bumbumapps.sudoku.ui.GameActivity">
 
-    <org.secuso.privacyfriendlysudoku.ui.view.SudokuFieldLayout
+    <com.bumbumapps.sudoku.ui.view.SudokuFieldLayout
         android:id="@+id/sudokuLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"
         android:clickable="true"
         android:focusable="true"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
         android:gravity="center"
         app:layout_constraintBottom_toTopOf="@+id/sudokuButtonLayout"
         app:layout_constraintDimensionRatio="1:1"
@@ -34,12 +33,15 @@
         android:minHeight="200dp"
         android:orientation="vertical"
         android:weightSum="3"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
         app:layout_constraintTop_toBottomOf="@id/sudokuLayout"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/adView"
         app:layout_constraintStart_toStartOf="parent">
 
-        <org.secuso.privacyfriendlysudoku.ui.view.SudokuKeyboardLayout
+        <com.bumbumapps.sudoku.ui.view.SudokuKeyboardLayout
             android:id="@+id/sudokuKeyboardLayout"
             android:layout_width="fill_parent"
             android:layout_height="0px"
@@ -47,7 +49,7 @@
             android:orientation="vertical"
             android:weightSum="2" />
 
-        <org.secuso.privacyfriendlysudoku.ui.view.SudokuSpecialButtonLayout
+        <com.bumbumapps.sudoku.ui.view.SudokuSpecialButtonLayout
             android:id="@+id/sudokuSpecialLayout"
             android:layout_width="fill_parent"
             android:layout_height="0dp"
@@ -55,5 +57,14 @@
             android:weightSum="1" />
 
     </LinearLayout>
+    <com.google.android.gms.ads.AdView
+        xmlns:ads="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/adView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        ads:adSize="FULL_BANNER"
+        ads:layout_constraintBottom_toBottomOf="parent"
+        ads:adUnitId="ca-app-pub-8444865753152507/2563142097">
 
+    </com.google.android.gms.ads.AdView>
 </androidx.constraintlayout.widget.ConstraintLayout>
