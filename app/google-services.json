@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "616423523370",
+    "project_id": "sudoku-4b160",
+    "storage_bucket": "sudoku-4b160.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:616423523370:android:65bbf6b16d862b4b7caf53",
+        "android_client_info": {
+          "package_name": "com.bumbumapps.sudoku"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "616423523370-r67c5slsvp246eghgiksgl66dia9lutj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBQqTeb7bYmV_plEgVa1-c6h5ZxuXPySxQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "616423523370-r67c5slsvp246eghgiksgl66dia9lutj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

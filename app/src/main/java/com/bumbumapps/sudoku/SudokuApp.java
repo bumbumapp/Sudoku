@@ -24,6 +24,9 @@ import android.os.Build;
 
 import androidx.appcompat.app.AppCompatDelegate;
 
+import com.bumbumapps.sudoku.ui.LoadAds;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
+
 public class SudokuApp extends Application {
 
     public static final String CHANNEL_ID = "sudoku.0";
@@ -32,7 +35,9 @@ public class SudokuApp extends Application {
     public void onCreate() {
         super.onCreate();
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
-
+        LoadAds.loadGoogleInterstitialAd(this);
+        LoadAds.loadAds(this);
+        FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(true);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             // channels
             NotificationChannel channel = new NotificationChannel(CHANNEL_ID, "Default", NotificationManager.IMPORTANCE_LOW);

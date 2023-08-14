@@ -16,6 +16,9 @@
  */
 package com.bumbumapps.sudoku.ui.view;
 
+
+import static com.bumbumapps.sudoku.ui.LoadAds.rewardedVideoAd;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -30,21 +33,23 @@ import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
 import com.bumbumapps.sudoku.controller.GameController;
 import com.bumbumapps.sudoku.game.listener.IHighlightChangedListener;
+import com.bumbumapps.sudoku.ui.LoadAds;
 import com.bumbumapps.sudoku.ui.listener.IHintDialogFragmentListener;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.MobileAds;
-import com.google.android.gms.ads.reward.RewardItem;
-import com.google.android.gms.ads.reward.RewardedVideoAd;
-import com.google.android.gms.ads.reward.RewardedVideoAdListener;
+import com.google.android.gms.ads.AdService;
+import com.google.android.gms.ads.FullScreenContentCallback;
+import com.google.android.gms.ads.OnUserEarnedRewardListener;
+import com.google.android.gms.ads.rewarded.RewardItem;
 
 import org.secuso.privacyfriendlysudoku.ui.view.R;
 
@@ -53,9 +58,9 @@ import java.util.LinkedList;
 /**
  * Created by TMZ_LToP on 17.11.2015.
  */
-public class SudokuSpecialButtonLayout extends LinearLayout implements IHighlightChangedListener, RewardedVideoAdListener {
+public class SudokuSpecialButtonLayout extends LinearLayout implements IHighlightChangedListener {
 
-    RewardedVideoAd rewardedVideoAd;
+
     SudokuSpecialButton[] fixedButtons;
     public int fixedButtonsCount = SudokuButtonType.getSpecialButtons().size();
     GameController gameController;
@@ -72,8 +77,6 @@ public class SudokuSpecialButtonLayout extends LinearLayout implements IHighligh
             if(v instanceof SudokuSpecialButton) {
                 SudokuSpecialButton btn = (SudokuSpecialButton)v;
 
-                //int row = gameController.getSelectedRow();
-                //int col = gameController.getSelectedCol();
 
                 switch(btn.getType()) {
                     case Delete:
@@ -95,13 +98,25 @@ public class SudokuSpecialButtonLayout extends LinearLayout implements IHighligh
                         if(gameController.isValidCellSelected()) {
                             if(gameController.getUsedHints() == 0 && !gameController.gameIsCustom()) {
                                 // are you sure you want to use a hint?
-                                HintConfirmationDialog hintDialog = new HintConfirmationDialog(rewardedVideoAd);
+                                HintConfirmationDialog hintDialog = new HintConfirmationDialog(gameController,context);
                                 hintDialog.show(fragmentManager, "HintDialogFragment");
-
                             } else {
-                                if (rewardedVideoAd.isLoaded())
-                                    rewardedVideoAd.show();
+                                Log.d("FullScreenContent","sjs2");
+                                if (rewardedVideoAd != null) {
+                                    rewardedVideoAd.setFullScreenContentCallback(new FullScreenContentCallback() {
+                                        @Override
+                                        public void onAdShowedFullScreenContent() {
+                                            LoadAds.loadAds(context);
+                                        }
+                                    });
+                                    rewardedVideoAd.show((Activity) context, new OnUserEarnedRewardListener() {
+                                        @Override
+                                        public void onUserEarnedReward(@NonNull RewardItem rewardItem) {
+                                            gameController.hint();
 
+                                        }
+                                    });
+                                }
                             }
                         } else {
                             // Display a Toast that explains how to use the Hint function.
@@ -119,15 +134,13 @@ public class SudokuSpecialButtonLayout extends LinearLayout implements IHighligh
 
     public SudokuSpecialButtonLayout(Context context, AttributeSet attrs) {
         super(context, attrs);
-        rewardedVideoAd= MobileAds.getRewardedVideoAdInstance(context);
-        rewardedVideoAd.setRewardedVideoAdListener(this);
-        loadAds();
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.SudokuSpecialButtonLayout);
         buttonMargin = a.getDimension(R.styleable.SudokuSpecialButtonLayout_sudokuSpecialKeyboardMargin, 5f);
         a.recycle();
-
         setWeightSum(fixedButtonsCount);
         this.context = context;
+
+
     }
 
     public void setButtonsEnabled(boolean enabled) {
@@ -135,9 +148,7 @@ public class SudokuSpecialButtonLayout extends LinearLayout implements IHighligh
             b.setEnabled(enabled);
         }
     }
-      private void loadAds(){
-          rewardedVideoAd.loadAd("ca-app-pub-8444865753152507/5430640678",new AdRequest.Builder().build());
-    }
+
 
     public void setButtons(int width, GameController gc, SudokuKeyboardLayout key, FragmentManager fm, int orientation, Context cxt) {
         fragmentManager = fm;
@@ -226,55 +237,23 @@ public class SudokuSpecialButtonLayout extends LinearLayout implements IHighligh
         canvas = new Canvas(bitResult);
     }
 
-    @Override
-    public void onRewardedVideoAdLoaded() {
 
-    }
-
-    @Override
-    public void onRewardedVideoAdOpened() {
-
-    }
-
-    @Override
-    public void onRewardedVideoStarted() {
-
-    }
-
-    @Override
-    public void onRewardedVideoAdClosed() {
-             loadAds();
-    }
-
-    @Override
-    public void onRewarded(RewardItem rewardItem) {
-        gameController.hint();
-    }
-
-    @Override
-    public void onRewardedVideoAdLeftApplication() {
-
-    }
-
-    @Override
-    public void onRewardedVideoAdFailedToLoad(int i) {
-
-    }
 
     @SuppressLint("ValidFragment")
     public static class HintConfirmationDialog extends DialogFragment {
 
         LinkedList<IHintDialogFragmentListener> listeners = new LinkedList<>();
-        RewardedVideoAd rewardedVideoAd;
+        GameController gameController;
+        Context context;
         @SuppressLint("ValidFragment")
-        public HintConfirmationDialog(RewardedVideoAd rewardedVideoAd) {
-            this.rewardedVideoAd=rewardedVideoAd;
+        public HintConfirmationDialog(GameController gameController,Context context) {
+            this.gameController = gameController;
+            this.context = context;
         }
 
         @Override
         public void onAttach(Activity activity) {
             super.onAttach(activity);
-            // Verify that the host activity implements the callback interface
             if(activity instanceof IHintDialogFragmentListener) {
                 listeners.add((IHintDialogFragmentListener) activity);
             }
@@ -288,8 +267,21 @@ public class SudokuSpecialButtonLayout extends LinearLayout implements IHighligh
                     .setPositiveButton(R.string.hint_confirmation_confirm, new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             for(IHintDialogFragmentListener l : listeners) {
-                                if (rewardedVideoAd.isLoaded())
-                                    rewardedVideoAd.show();
+                                if (rewardedVideoAd != null) {
+                                    Log.d("FullScreenContent","sjs1");
+                                    rewardedVideoAd.setFullScreenContentCallback(new FullScreenContentCallback() {
+                                        @Override
+                                        public void onAdShowedFullScreenContent() {
+                                            LoadAds.loadAds(context);
+                                        }
+                                    });
+                                    rewardedVideoAd.show((Activity) context, new OnUserEarnedRewardListener() {
+                                        @Override
+                                        public void onUserEarnedReward(@NonNull RewardItem rewardItem) {
+                                            gameController.hint();
+                                        }
+                                    });
+                                }
                             }
                         }
                     })

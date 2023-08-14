@@ -52,6 +52,7 @@ import com.bumbumapps.sudoku.ui.view.SudokuFieldLayout;
 import com.bumbumapps.sudoku.ui.view.SudokuKeyboardLayout;
 import com.bumbumapps.sudoku.ui.view.SudokuSpecialButtonLayout;
 import com.bumbumapps.sudoku.ui.view.WinDialog;
+import com.google.android.gms.ads.FullScreenContentCallback;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -92,8 +93,8 @@ public class GameActivity extends BaseActivity implements IGameSolvedListener, I
     SudokuKeyboardLayout keyboard;
     SudokuSpecialButtonLayout specialButtonLayout;
     TextView timerView;
-    TextView viewName ;
-    ImageView ic_more,ic_back;
+    TextView viewName;
+    ImageView ic_more, ic_back;
     RatingBar ratingBar;
     SaveLoadStatistics statistics = new SaveLoadStatistics(this);
     WinDialog dialog;
@@ -115,7 +116,7 @@ public class GameActivity extends BaseActivity implements IGameSolvedListener, I
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
 
-        if(gameSolved || !startGame) {
+        if (gameSolved || !startGame) {
             gameController.pauseTimer();
         } else {
             // start the game
@@ -136,18 +137,18 @@ public class GameActivity extends BaseActivity implements IGameSolvedListener, I
         If the app is started via a deeplink, the GameActivity is the first activity the user accesses,
         so we need to set the dark mode settings in this activity as well
          */
-        if (sharedPref.getBoolean("pref_dark_mode_setting", false )) {
+        if (sharedPref.getBoolean("pref_dark_mode_setting", false)) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else if (sharedPref.getBoolean("pref_dark_mode_automatically_by_system", false)) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
 
-        } else if(sharedPref.getBoolean("pref_dark_mode_automatically_by_battery", false)){
+        } else if (sharedPref.getBoolean("pref_dark_mode_automatically_by_battery", false)) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY);
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
 
-        if(sharedPref.getBoolean("pref_keep_screen_on", true)) {
+        if (sharedPref.getBoolean("pref_keep_screen_on", true)) {
             getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         }
 
@@ -158,7 +159,7 @@ public class GameActivity extends BaseActivity implements IGameSolvedListener, I
         int loadLevelID = 0;
         boolean loadLevel = false;
 
-        if(savedInstanceState == null) {
+        if (savedInstanceState == null) {
 
             Bundle extras = getIntent().getExtras();
 
@@ -186,8 +187,7 @@ public class GameActivity extends BaseActivity implements IGameSolvedListener, I
                         if (validUris.get(i).getHost().equals("")) {
                             input = data.getHost();
                             break;
-                        }
-                        else if (data.getHost().equals(validUris.get(i).getHost())) {
+                        } else if (data.getHost().equals(validUris.get(i).getHost())) {
                             input = data.getPath();
                             input = input.replace("/", "");
                             break;
@@ -196,11 +196,11 @@ public class GameActivity extends BaseActivity implements IGameSolvedListener, I
                 }
 
                 // Save all of the information that can be extracted from the encoded board in a GameInfoContainer object
-                int sectionSize = (int)Math.sqrt(input.length());
+                int sectionSize = (int) Math.sqrt(input.length());
                 int boardSize = sectionSize * sectionSize;
                 QQWing difficultyCheck;
                 GameInfoContainer container = new GameInfoContainer(0, GameDifficulty.Unspecified,
-                        GameType.Unspecified, new int [boardSize], new int [boardSize], new boolean [boardSize][sectionSize]);
+                        GameType.Unspecified, new int[boardSize], new int[boardSize], new boolean[boardSize][sectionSize]);
                 // always set custom sudokus as custom
                 // TODO: maybe introduce a setting in the settings page to let the user decide
                 container.setCustom(true);
@@ -232,7 +232,7 @@ public class GameActivity extends BaseActivity implements IGameSolvedListener, I
                     sectionSize = GameType.Default_9x9.getSize();
                     boardSize = sectionSize * sectionSize;
                     container = new GameInfoContainer(0, GameDifficulty.Unspecified,
-                            GameType.Default_9x9, new int [boardSize], new int [boardSize], new boolean [boardSize][sectionSize]);
+                            GameType.Default_9x9, new int[boardSize], new int[boardSize], new boolean[boardSize][sectionSize]);
                 }
 
                 // Notify the user if the sudoku they tried to import cannot be played and finish the activity
@@ -270,7 +270,7 @@ public class GameActivity extends BaseActivity implements IGameSolvedListener, I
                  */
                 if (isDailySudoku) {
                     gameController.loadNewDailySudokuLevel();
-                } else  {
+                } else {
 
                     List<GameInfoContainer> loadableGames = GameStateManager.getLoadableGameList();
 
@@ -296,7 +296,7 @@ public class GameActivity extends BaseActivity implements IGameSolvedListener, I
             gameController = savedInstanceState.getParcelable("gameController");
             // in case we get the same object back
             // because parceling the Object does not always parcel it. Only if needed.
-            if(gameController != null) {
+            if (gameController != null) {
                 gameController.removeAllListeners();
                 gameController.setContextAndSettings(getApplicationContext(), sharedPref);
             } else {
@@ -315,11 +315,11 @@ public class GameActivity extends BaseActivity implements IGameSolvedListener, I
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        adView=findViewById(R.id.adView);
+        adView = findViewById(R.id.adView);
         //Create new GameField
-        layout = (SudokuFieldLayout)findViewById(R.id.sudokuLayout);
-        ic_more=findViewById(R.id.ic_more);
-        ic_back=findViewById(R.id.ic_back);
+        layout = (SudokuFieldLayout) findViewById(R.id.sudokuLayout);
+        ic_more = findViewById(R.id.ic_more);
+        ic_back = findViewById(R.id.ic_back);
         gameController.registerGameSolvedListener(this);
         gameController.registerTimerListener(this);
         statistics.setGameController(gameController);
@@ -336,9 +336,9 @@ public class GameActivity extends BaseActivity implements IGameSolvedListener, I
             @Override
             public void onClick(View view) {
                 Context wrapper = new ContextThemeWrapper(getBaseContext(), R.style.popupMenuStyle);
-                PopupMenu popupMenu=new PopupMenu(wrapper, view);
-                popupMenu.getMenuInflater().inflate(R.menu.menu_drawer,popupMenu.getMenu());
-                if (gameSolved){
+                PopupMenu popupMenu = new PopupMenu(wrapper, view);
+                popupMenu.getMenuInflater().inflate(R.menu.menu_drawer, popupMenu.getMenu());
+                if (gameSolved) {
                     popupMenu.getMenu().findItem(R.id.menu_reset).setEnabled(false);
                 }
                 popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -366,7 +366,7 @@ public class GameActivity extends BaseActivity implements IGameSolvedListener, I
         int orientation = getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT ?
                 LinearLayout.HORIZONTAL : LinearLayout.VERTICAL;
 
-        keyboard.setKeyBoard(gameController.getSize(), p.x,layout.getHeight()-p.y, orientation);
+        keyboard.setKeyBoard(gameController.getSize(), p.x, layout.getHeight() - p.y, orientation);
 
 
         //set Special keys
@@ -374,7 +374,7 @@ public class GameActivity extends BaseActivity implements IGameSolvedListener, I
         specialButtonLayout.setButtons(p.x, gameController, keyboard, getFragmentManager(), orientation, GameActivity.this);
 
         //set TimerView
-        timerView = (TextView)findViewById(R.id.timerView);
+        timerView = (TextView) findViewById(R.id.timerView);
 
 
         //set GameName
@@ -388,13 +388,13 @@ public class GameActivity extends BaseActivity implements IGameSolvedListener, I
         ratingBar.setMax(numberOfStarts);
         ratingBar.setNumStars(numberOfStarts);
         ratingBar.setRating(difficutyList.indexOf(gameController.getDifficulty()) + 1);
-        TextView diffText = ((TextView)findViewById(R.id.difficultyText));
+        TextView diffText = ((TextView) findViewById(R.id.difficultyText));
         diffText.setText(getString(gameController.getDifficulty().getStringResID()));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.colorPrimaryDark));
         }
 
-        if(gameSolved) {
+        if (gameSolved) {
             layout.setEnabled(false);
             keyboard.setButtonsEnabled(false);
             specialButtonLayout.setButtonsEnabled(false);
@@ -408,17 +408,19 @@ public class GameActivity extends BaseActivity implements IGameSolvedListener, I
 
         overridePendingTransition(0, 0);
     }
+
     private void loadbannerads() {
         adView = findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         adView.loadAd(adRequest);
     }
+
     @Override
-    public void onPause(){
+    public void onPause() {
         super.onPause();
 
         // Do not save solved or unplayable sudokus
-        if(!gameSolved && startGame) {
+        if (!gameSolved && startGame) {
             gameController.saveGame(this);
         }
         gameController.deleteTimer();
@@ -432,7 +434,7 @@ public class GameActivity extends BaseActivity implements IGameSolvedListener, I
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
 
         View mainContent = findViewById(R.id.main_content);
@@ -442,7 +444,7 @@ public class GameActivity extends BaseActivity implements IGameSolvedListener, I
 
         gameController.initTimer();
 
-        if(!gameSolved && startGame) {
+        if (!gameSolved && startGame) {
             mHandler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
@@ -455,7 +457,7 @@ public class GameActivity extends BaseActivity implements IGameSolvedListener, I
         Symbol s;
         try {
             s = Symbol.valueOf(sharedPref.getString("pref_symbols", Symbol.Default.name()));
-        } catch(IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             s = Symbol.Default;
         }
         layout.setSymbols(s);
@@ -472,7 +474,7 @@ public class GameActivity extends BaseActivity implements IGameSolvedListener, I
     @Override
     public void onBackPressed() {
 
-            super.onBackPressed();
+        super.onBackPressed();
 
     }
 
@@ -483,7 +485,7 @@ public class GameActivity extends BaseActivity implements IGameSolvedListener, I
 
         Intent intent = null;
 
-        switch(id) {
+        switch (id) {
             case R.id.menu_reset:
                 ResetConfirmationDialog resetDialog = new ResetConfirmationDialog();
                 resetDialog.show(getFragmentManager(), "ResetDialogFragment");
@@ -531,7 +533,7 @@ public class GameActivity extends BaseActivity implements IGameSolvedListener, I
 
             case R.id.menu_settings:
                 //open settings
-                intent = new Intent(this,SettingsActivity.class);
+                intent = new Intent(this, SettingsActivity.class);
                 break;
 
             case R.id.nav_highscore:
@@ -542,12 +544,12 @@ public class GameActivity extends BaseActivity implements IGameSolvedListener, I
 
             case R.id.menu_help:
                 //open about page
-                intent = new Intent(this,HelpActivity.class);
+                intent = new Intent(this, HelpActivity.class);
                 break;
             default:
         }
 
-        if(intent != null) {
+        if (intent != null) {
 
             final Intent i = intent;
             // fade out the active activity
@@ -579,7 +581,7 @@ public class GameActivity extends BaseActivity implements IGameSolvedListener, I
 
 
         //Save solved sudoku, if it happens to be a daily sudoku, to daily sudoku database
-        if(gameController.getGameID() == GameController.DAILY_SUDOKU_ID) {
+        if (gameController.getGameID() == GameController.DAILY_SUDOKU_ID) {
             gameController.saveDailySudoku(GameActivity.this);
             SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
             SharedPreferences.Editor editor = sharedPref.edit();
@@ -598,18 +600,38 @@ public class GameActivity extends BaseActivity implements IGameSolvedListener, I
             //Show time hints new plus old best time
             statistics.saveGameStats();
             isNewBestTime = gameController.getUsedHints() == 0
-                    && statistics.loadStats(gameController.getGameType(),gameController.getDifficulty()).getMinTime() >= gameController.getTime();
+                    && statistics.loadStats(gameController.getGameType(), gameController.getDifficulty()).getMinTime() >= gameController.getTime();
 
         } else {
             // cannot be best time if sudoku is custom
             isNewBestTime = false;
         }
+        if (LoadAds.mInterstitialAd != null) {
+            LoadAds.mInterstitialAd.show(this);
+            LoadAds.mInterstitialAd.setFullScreenContentCallback(new FullScreenContentCallback() {
+                @Override
+                public void onAdDismissedFullScreenContent() {
+                    buildWinDialog(
+                            timeToString(gameController.getTime()),
+                            String.valueOf(gameController.getUsedHints()),
+                            isNewBestTime
+                    ).show(getSupportFragmentManager(), "WIN_DIALOG");
+                    LoadAds.loadGoogleInterstitialAd(GameActivity.this);
+                }
+            });
 
-        buildWinDialog(
-                timeToString(gameController.getTime()),
-                String.valueOf(gameController.getUsedHints()),
-                isNewBestTime
-        ).show(getSupportFragmentManager(), "WIN_DIALOG");;
+
+        } else {
+
+            buildWinDialog(
+                    timeToString(gameController.getTime()),
+                    String.valueOf(gameController.getUsedHints()),
+                    isNewBestTime
+            ).show(getSupportFragmentManager(), "WIN_DIALOG");
+
+
+        }
+
 
         layout.setEnabled(false);
         keyboard.setButtonsEnabled(false);
@@ -641,6 +663,7 @@ public class GameActivity extends BaseActivity implements IGameSolvedListener, I
 
     @Override
     public void onHintDialogPositiveClick() {
+
         gameController.hint();
     }
 

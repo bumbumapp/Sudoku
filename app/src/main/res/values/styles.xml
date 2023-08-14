@@ -10,7 +10,7 @@
         <item name="lightestFontColor">@color/white</item>
         <item name="standardVectorGraphic">@color/colorAccent</item>
         <item name="winScreenPedestalColor">@color/middleblue</item>
-        <item name="winScreenFontColor">@color/white</item>
+        <item name="winScreenFontColor">#221f35</item>
         <item name="backgroundSurroundingDialog">@color/transparent</item>
         <item name="rankingStarSelected">@color/lightblue</item>
         <item name="rankingCircleSelected">@color/lightblue</item>

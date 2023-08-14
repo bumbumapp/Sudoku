@@ -39,6 +39,9 @@ import com.bumbumapps.sudoku.game.listener.IHintListener;
 import com.bumbumapps.sudoku.game.listener.IModelChangedListener;
 import com.bumbumapps.sudoku.game.listener.ITimerListener;
 import com.bumbumapps.sudoku.ui.GameActivity;
+import com.bumbumapps.sudoku.ui.LoadAds;
+import com.google.android.gms.ads.AdService;
+import com.google.android.gms.ads.FullScreenContentCallback;
 
 import java.util.Calendar;
 import java.util.LinkedList;
