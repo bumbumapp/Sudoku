@@ -24,7 +24,6 @@ import android.os.Build;
 
 import androidx.appcompat.app.AppCompatDelegate;
 
-import com.bumbumapps.sudoku.ui.LoadAds;
 import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
 public class SudokuApp extends Application {
@@ -35,8 +34,7 @@ public class SudokuApp extends Application {
     public void onCreate() {
         super.onCreate();
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
-        LoadAds.loadGoogleInterstitialAd(this);
-        LoadAds.loadAds(this);
+        registerActivityLifecycleCallbacks(new EdgeToEdgeCallbacks());
         FirebaseCrashlytics.getInstance().setCrashlyticsCollectionEnabled(true);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             // channels

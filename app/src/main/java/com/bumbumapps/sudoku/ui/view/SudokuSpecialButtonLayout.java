@@ -106,6 +106,8 @@ public class SudokuSpecialButtonLayout extends LinearLayout implements IHighligh
                                     rewardedVideoAd.setFullScreenContentCallback(new FullScreenContentCallback() {
                                         @Override
                                         public void onAdShowedFullScreenContent() {
+                                            // A RewardedAd can be shown only once: drop it and load the next one.
+                                            LoadAds.rewardedVideoAd = null;
                                             LoadAds.loadAds(context);
                                         }
                                     });
@@ -116,6 +118,10 @@ public class SudokuSpecialButtonLayout extends LinearLayout implements IHighligh
 
                                         }
                                     });
+                                } else {
+                                    // No ad available (offline / no consent / no fill): don't leave the hint button dead.
+                                    gameController.hint();
+                                    LoadAds.loadAds(context);
                                 }
                             }
                         } else {
@@ -272,6 +278,8 @@ public class SudokuSpecialButtonLayout extends LinearLayout implements IHighligh
                                     rewardedVideoAd.setFullScreenContentCallback(new FullScreenContentCallback() {
                                         @Override
                                         public void onAdShowedFullScreenContent() {
+                                            // A RewardedAd can be shown only once: drop it and load the next one.
+                                            LoadAds.rewardedVideoAd = null;
                                             LoadAds.loadAds(context);
                                         }
                                     });
@@ -281,6 +289,10 @@ public class SudokuSpecialButtonLayout extends LinearLayout implements IHighligh
                                             gameController.hint();
                                         }
                                     });
+                                } else {
+                                    // No ad available (offline / no consent / no fill): don't leave the hint button dead.
+                                    gameController.hint();
+                                    LoadAds.loadAds(context);
                                 }
                             }
                         }

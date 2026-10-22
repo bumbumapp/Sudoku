@@ -16,6 +16,7 @@
  */
 package com.bumbumapps.sudoku.ui;
 
+import com.bumbumapps.sudoku.AdsHelper;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -33,8 +34,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
 import com.bumbumapps.sudoku.controller.GameController;
 import com.bumbumapps.sudoku.controller.GameStateManager;
 import com.bumbumapps.sudoku.controller.SaveLoadStatistics;
@@ -52,7 +51,6 @@ import com.bumbumapps.sudoku.ui.view.SudokuFieldLayout;
 import com.bumbumapps.sudoku.ui.view.SudokuKeyboardLayout;
 import com.bumbumapps.sudoku.ui.view.SudokuSpecialButtonLayout;
 import com.bumbumapps.sudoku.ui.view.WinDialog;
-import com.google.android.gms.ads.FullScreenContentCallback;
 
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -87,7 +85,7 @@ public class GameActivity extends BaseActivity implements IGameSolvedListener, I
             Uri.parse("http://sudoku.secuso.org"),
             Uri.parse("sudoku://")
     );
-    private AdView adView;
+    private android.view.ViewGroup adView;
     GameController gameController;
     SudokuFieldLayout layout;
     SudokuKeyboardLayout keyboard;
@@ -410,9 +408,13 @@ public class GameActivity extends BaseActivity implements IGameSolvedListener, I
     }
 
     private void loadbannerads() {
+        // UMP consent first; Mobile Ads starts and requests ads only after canRequestAds().
         adView = findViewById(R.id.adView);
-        AdRequest adRequest = new AdRequest.Builder().build();
-        adView.loadAd(adRequest);
+        AdsHelper.gatherConsent(this, () -> {
+            AdsHelper.loadBanner(this, adView, getString(R.string.banner_id));
+            AdsHelper.preloadInterstitial(this, getString(R.string.interstitial_id));
+            LoadAds.loadAds(this);
+        });
     }
 
     @Override
@@ -606,32 +608,18 @@ public class GameActivity extends BaseActivity implements IGameSolvedListener, I
             // cannot be best time if sudoku is custom
             isNewBestTime = false;
         }
-        if (LoadAds.mInterstitialAd != null) {
-            LoadAds.mInterstitialAd.show(this);
-            LoadAds.mInterstitialAd.setFullScreenContentCallback(new FullScreenContentCallback() {
-                @Override
-                public void onAdDismissedFullScreenContent() {
-                    buildWinDialog(
-                            timeToString(gameController.getTime()),
-                            String.valueOf(gameController.getUsedHints()),
-                            isNewBestTime
-                    ).show(getSupportFragmentManager(), "WIN_DIALOG");
-                    LoadAds.loadGoogleInterstitialAd(GameActivity.this);
-                }
-            });
-
-
-        } else {
-
+        // Natural break (puzzle solved): capped interstitial, then the win dialog.
+        final boolean bestTime = isNewBestTime;
+        AdsHelper.showInterstitialIfReady(this, getString(R.string.interstitial_id), () -> {
+            if (isFinishing() || isDestroyed() || getSupportFragmentManager().isStateSaved()) {
+                return;
+            }
             buildWinDialog(
                     timeToString(gameController.getTime()),
                     String.valueOf(gameController.getUsedHints()),
-                    isNewBestTime
+                    bestTime
             ).show(getSupportFragmentManager(), "WIN_DIALOG");
-
-
-        }
-
+        });
 
         layout.setEnabled(false);
         keyboard.setButtonsEnabled(false);

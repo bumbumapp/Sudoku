@@ -96,7 +96,6 @@ public class GeneratorService extends JobIntentService {
     }
 
     private void handleGenerationStop() {
-        stopForeground(true);
         //mHandler.removeCallbacksAndMessages(null);
     }
 
@@ -135,9 +134,8 @@ public class GeneratorService extends JobIntentService {
     }
 
     private void generateLevel(final GameType gameType, final GameDifficulty gameDifficulty) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            showNotification(gameType, gameDifficulty);
-        }
+        // No startForeground() here: this runs as a JobIntentService job, and an untyped foreground
+        // service start throws MissingForegroundServiceTypeException when targeting Android 14+.
 
         generated.clear();
         opts.gameDifficulty = gameDifficulty;
@@ -264,20 +262,6 @@ public class GeneratorService extends JobIntentService {
             // we are done and can close this service
             handleGenerationStop();
         }
-    }
-
-    @RequiresApi(api = Build.VERSION_CODES.S)
-    private void showNotification(GameType gameType, GameDifficulty gameDifficulty) {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, SudokuApp.CHANNEL_ID);
-        builder.setContentTitle(getString(R.string.app_name));
-        builder.setContentText(getString(R.string.generating));
-        builder.setSubText(getString(gameType.getStringResID()) + ", " + getString(gameDifficulty.getStringResID()));
-        builder.setContentIntent(PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class),PendingIntent.FLAG_MUTABLE));
-        builder.setColor(ContextCompat.getColor(this, R.color.colorAccent));
-        builder.setPriority(NotificationCompat.PRIORITY_HIGH);
-        builder.setWhen(0);
-        builder.setSmallIcon(R.drawable.splash_icon);
-        startForeground(50, builder.build());
     }
 
     static void enqueueWork(Context context, Intent intent) {
