@@ -1,49 +1,65 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.google.firebase.crashlytics'
 apply plugin: 'com.google.gms.google-services'
-android {
-    compileSdkVersion 31
 
+android {
+    namespace 'org.secuso.privacyfriendlysudoku.ui.view'
+    compileSdk 36
     defaultConfig {
         applicationId "com.bumbumapps.sudoku"
-        minSdkVersion 21
-        targetSdkVersion 31
-        versionCode 12
-        versionName "8.1.3"
+        minSdk 24
+        targetSdk 36
+        versionCode 13
+        versionName "8.2.0"
         vectorDrawables.useSupportLibrary = true
     }
+    buildFeatures {
+        buildConfig true
+        resValues true
+        dataBinding true
+    }
     buildTypes {
+        debug {
+            // Google's public test IDs so debug builds never request real ads.
+            resValue 'string', 'admob_app_id', 'ca-app-pub-3940256099942544~3347511713'
+            resValue 'string', 'banner_id', 'ca-app-pub-3940256099942544/9214589741'
+            resValue 'string', 'interstitial_id', 'ca-app-pub-3940256099942544/1033173712'
+            resValue 'string', 'rewarded_id', 'ca-app-pub-3940256099942544/5224354917'
+        }
         release {
+            // AdMob app id from the AdMob API; the unit IDs are the ones already in this repo
+            // (the AdMob API lists no units for this app - see the Trello card).
+            resValue 'string', 'admob_app_id', 'ca-app-pub-8444865753152507~9311742640'
+            resValue 'string', 'banner_id', 'ca-app-pub-8444865753152507/2563142097'
+            resValue 'string', 'interstitial_id', 'ca-app-pub-8444865753152507/1135714274'
+            resValue 'string', 'rewarded_id', 'ca-app-pub-8444865753152507/9205243159'
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
     }
-
-    dataBinding {
-        enabled = true
+    lint {
+        abortOnError false
+        checkReleaseBuilds false
     }
 }
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
-    implementation 'androidx.preference:preference:1.1.1'
-    testImplementation 'junit:junit:4.13.1'
-    implementation 'androidx.core:core:1.3.2'
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
-    implementation 'androidx.legacy:legacy-support-v13:1.0.0'
-    implementation 'androidx.appcompat:appcompat:1.2.0'
-    implementation 'com.google.android.material:material:1.2.1'
-    implementation 'androidx.legacy:legacy-support-core-ui:1.0.0'
+    implementation 'androidx.preference:preference:1.2.1'
+    implementation 'androidx.core:core:1.17.0'
+    implementation 'androidx.activity:activity:1.10.1'
+    implementation 'androidx.appcompat:appcompat:1.7.1'
+    implementation 'com.google.android.material:material:1.13.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
     implementation 'androidx.legacy:legacy-support-core-utils:1.0.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
-    implementation 'com.google.android.gms:play-services-ads:20.5.0'
-    implementation platform('com.google.firebase:firebase-bom:26.1.0')
-    // Declare the dependencies for the Crashlytics and Analytics libraries
-    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation 'com.google.android.gms:play-services-ads:25.5.0'
+    implementation 'com.google.android.ump:user-messaging-platform:4.0.0'
+    implementation platform('com.google.firebase:firebase-bom:35.1.0')
     implementation 'com.google.firebase:firebase-crashlytics'
-
+    implementation 'com.google.firebase:firebase-analytics'
+    testImplementation 'junit:junit:4.13.2'
 }
